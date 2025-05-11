@@ -1,13 +1,21 @@
-﻿using DataStructuresStudy.DataStructures;
+﻿using System.Reflection;
+using DataStructuresStudy.Util;
 
-var dataStructures = new List<Type> { typeof(List), typeof(LinkedList) };
+var dataStructureTypes = Assembly.GetExecutingAssembly().GetTypes()
+    .Where(t => t.IsClass &&
+                 !t.IsAbstract &&
+                 t.Namespace == "DataStructuresStudy.DataStructures" &&
+                 typeof(IDataStructures).IsAssignableFrom(t) &&
+                 t != typeof(IDataStructures)
+          )
+    .ToArray();
 
-foreach (var dataStructure in dataStructures)
+foreach (var dataStructureType in dataStructureTypes)
 {
-    var instance = Activator.CreateInstance(dataStructure);
-    if (instance is DataStructuresStudy.Util.IDataStructures dataStructureInstance)
+    var instance = Activator.CreateInstance(dataStructureType);
+    if (instance is IDataStructures dataStructureInstance)
     {
-        Console.WriteLine($"-------------- {dataStructure.Name} --------------");
+        Console.WriteLine($"-------------- {dataStructureType.Name} --------------");
         Console.WriteLine($"Start: {DateTime.Now}");
         dataStructureInstance.Run();
         Console.WriteLine($"End: {DateTime.Now}");
