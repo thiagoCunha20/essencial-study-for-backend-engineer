@@ -15,7 +15,7 @@
 
 using Util;
 
-namespace Algorithms
+namespace Algorithms.Algorithms
 {
     public class BinaryGaps : IAlgorithm
     {
@@ -23,10 +23,11 @@ namespace Algorithms
 
         public void Run()
         {
+            Console.WriteLine(this.ToString());
             Console.WriteLine(Solution(20));
         }
 
-        public int Solution(int N)
+        public static int Solution(int N)
         {
             string binaryNumber = N.ToString("b");;
             const char binaryGapsDelimiter = '1';
